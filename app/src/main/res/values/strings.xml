@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SecondShop</string>
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
+    <string-array name="Spinner_items">
+        <item>DTU</item>
+        <item>NSUT</item>
+        <item>IIT-DELHI</item>
+        <item>NIT-DELHI</item>
+        <item>IIIT-DELHI</item>
+    </string-array>
+</resources>

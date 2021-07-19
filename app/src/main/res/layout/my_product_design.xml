@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/myproduct_image"
+            android:layout_width="match_parent"
+            android:layout_height="250sp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"
+            android:background="@drawable/profile"
+            android:scaleType="centerCrop"
+            ></ImageView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/myproduct_pName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Name"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"></TextView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rs."
+                    android:textColor="@color/colorPrimaryDark"></TextView>
+
+                <TextView
+                    android:id="@+id/myproduct_pPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:textColor="@color/colorPrimaryDark"></TextView>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/myproduct_pDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="Description..."></TextView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date: "
+                    android:textColor="@color/colorPrimaryDark"></TextView>
+
+                <TextView
+                    android:id="@+id/myproduct_DateAdded"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="DateAdded..."></TextView>
+
+            </LinearLayout><LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time: "
+                android:textColor="@color/colorPrimaryDark"></TextView>
+
+            <TextView
+                android:id="@+id/myproduct_TimeAdded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:text="TimeAdded..."></TextView>
+        </LinearLayout>
+
+            <TextView
+                android:id="@+id/myproduct_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_baseline_delete_24"
+                android:gravity="end"
+                android:layout_weight="1"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"></TextView>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

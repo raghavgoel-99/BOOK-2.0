@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar" />
+        <ImageView
+
+            android:id="@+id/Setting_profile_image"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_below="@id/toolbar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/profile"
+
+            ></ImageView>
+        <EditText
+            android:id="@+id/username_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Setting_profile_image"
+            android:layout_marginTop="20dp"
+            android:hint="Enter Your UserName"
+            android:textColorHint="@android:color/black"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:textSize="20dp"
+            android:drawableLeft="@drawable/edit_profile"
+
+            ></EditText>
+        <EditText
+            android:id="@+id/Status_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_below="@+id/username_settings"
+            android:layout_marginTop="20dp"
+            android:hint="Write Your Status"
+            android:textColorHint="@android:color/black"
+            android:textColor="@android:color/black"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            android:drawableLeft="@drawable/edit_status"
+
+            ></EditText>
+        <Button
+            android:id="@+id/save_settings_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:layout_below="@+id/Status_settings"
+            android:layout_marginTop="30dp"
+            android:text="SAVE"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+
+            ></Button>
+    </RelativeLayout>
+</ScrollView>
