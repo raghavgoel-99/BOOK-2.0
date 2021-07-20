@@ -41,7 +41,7 @@
             android:layout_toRightOf="@id/cardviewofuser"
             android:id="@+id/statusofuser"
             android:layout_below="@id/nameofuser"
-            android:textColor="#6a6a6a">
+            android:textColor="@color/colorPrimary">
 
         </TextView>
 
@@ -64,7 +64,7 @@
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/profile"
                 android:id="@+id/imageviewofuser"
                 android:scaleType="centerCrop">
 

@@ -97,8 +97,6 @@ public class CartActivity extends AppCompatActivity {
                 holder.ordernow.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String Number = "8920997202";
-                        String sms;
                         db.collection("Products Category").document(model.getPid()).get().
                                 addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override

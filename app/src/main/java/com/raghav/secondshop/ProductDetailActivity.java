@@ -40,9 +40,9 @@ public class ProductDetailActivity extends AppCompatActivity {
     private Button addtocart, ordernow;
     private ProgressDialog loadingBar;
     private FirebaseFirestore db;
-    private String location2, status,username;
-    private String saveCurrentDate, saveCurrentTime, productRandomKey, currentuserID,currentusername;
-    private DocumentReference noteref;
+    private String location2, status,username,ownername;
+    private String saveCurrentDate, saveCurrentTime, productRandomKey, currentuserID;
+    private DocumentReference noteref,noteref2;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,33 +52,6 @@ public class ProductDetailActivity extends AppCompatActivity {
         toolbar.setTitle("Product Detail");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
-
-        currentuserID = FirebaseAuth.getInstance().getCurrentUser()
-                .getPhoneNumber();
-
-        db = FirebaseFirestore.getInstance();
-
-        currentusername = FirebaseAuth.getInstance().getCurrentUser()
-                .getUid();
-        noteref = db.collection("users").document(currentusername);
-
-        noteref.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            username = documentSnapshot.getString("name");
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProductDetailActivity.this, "ERROR "+ e.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         loadingBar = new ProgressDialog(this);
         ProductImage = findViewById(R.id.Detailimage);
         pname = findViewById(R.id.detailname);
@@ -86,13 +59,13 @@ public class ProductDetailActivity extends AppCompatActivity {
         pdesc = findViewById(R.id.detail_description);
         addtocart = findViewById(R.id.Add_to_cart);
         ordernow = findViewById(R.id.Order_Now);
-
         productName = getIntent().getExtras().get("name").toString();
         Image = getIntent().getExtras().get("image").toString();
         Price = getIntent().getStringExtra("price");
         Description = getIntent().getExtras().get("desc").toString();
         ProductID=getIntent().getExtras().get("pid").toString();
 
+        Toast.makeText(ProductDetailActivity.this,ProductID.substring(23),Toast.LENGTH_SHORT).show();
         pname.setText(productName);
         pprice.setText(Price);
         pdesc.setText(Description);
@@ -108,6 +81,47 @@ public class ProductDetailActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+//        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+
+
+        db = FirebaseFirestore.getInstance();
+
+        currentuserID = FirebaseAuth.getInstance().getCurrentUser()
+                .getUid();
+        noteref = db.collection("users").document(currentuserID);
+
+        noteref.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            username = documentSnapshot.getString("name");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProductDetailActivity.this, "ERROR "+ e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        noteref2 = db.collection("users").document(ProductID.substring(23));
+
+        noteref2.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            ownername = documentSnapshot.getString("name");
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProductDetailActivity.this, "Product Not Exist "+ e.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
         Spinner location = findViewById(R.id.location);
 //        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -129,15 +143,36 @@ public class ProductDetailActivity extends AppCompatActivity {
         ordernow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-            db.collection("users").document(currentuserID).collection("chat").document(ProductID.substring(22)).set("")
+                HashMap<String, Object> chatMap = new HashMap<>();
+                chatMap.put("Product", productName);
+                // productMap.put("username", Username.getText().toString());
+                chatMap.put("price", Price);
+                chatMap.put("status","Online");
+                chatMap.put("name",ownername);
+                chatMap.put("uid",ProductID.substring(23));
+                db.collection("users").document(currentuserID).collection("chat").document(ProductID.substring(23)).set(chatMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-
+                           Toast.makeText(ProductDetailActivity.this,"You Can now chat with owner in your Chat Section",Toast.LENGTH_SHORT).show();
                         }
                     });
-//
+                HashMap<String, Object> chatMap2 = new HashMap<>();
+                chatMap.put("Product", productName);
+                // productMap.put("username", Username.getText().toString());
+                chatMap2.put("price", Price);
+                chatMap2.put("status","Online");
+                chatMap2.put("name", username);
+                chatMap2.put("uid",currentuserID);
+                db.collection("users").document(ProductID.substring(23)).collection("chat").document(currentuserID).set(chatMap2)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(ProductDetailActivity.this,"succcessfully",Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
+
 //                    FirebaseDatabase.getInstance().getReference().child("Tokens").child("z6ZhzkOSQEfbIZQY7yTd5vlQi193").child("token").addListenerForSingleValueEvent(new ValueEventListener() {
 //                        @Override public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                            String usertoken = dataSnapshot.getValue(String.class);
@@ -188,7 +223,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             productMap.put("price", Price);
             productMap.put("location", location2);
             productMap.put("pid",ProductID);
-            db.collection("CART OF" + currentusername).document(productName).set(productMap)
+            db.collection("CART OF" + currentuserID).document(productName).set(productMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
@@ -291,7 +326,7 @@ public class ProductDetailActivity extends AppCompatActivity {
 
                 }
             });
-            db.collection("Ordered By" + currentusername).document(productRandomKey).set(productMap)
+            db.collection("Ordered By" + currentuserID).document(productRandomKey).set(productMap)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {

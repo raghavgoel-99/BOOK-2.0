@@ -2,6 +2,7 @@ package com.raghav.secondshop;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,13 +35,17 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat2);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Chat Section");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firebaseAuth= FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
         mrecyclerview=findViewById(R.id.recyclerview);
 
 
         // Query query=firebaseFirestore.collection("Users");
-        Query query=firebaseFirestore.collection("users").whereNotEqualTo("uid",firebaseAuth.getUid());
+        Query query=firebaseFirestore.collection("users").document(firebaseAuth.getUid()).collection("chat");
         FirestoreRecyclerOptions<chatmodel> allusername=new FirestoreRecyclerOptions.Builder<chatmodel>().setQuery(query,chatmodel.class).build();
 
         chatAdapter=new FirestoreRecyclerAdapter<chatmodel, NoteViewHolder>(allusername) {
@@ -48,27 +53,27 @@ public class ChatActivity extends AppCompatActivity {
             protected void onBindViewHolder(@NonNull NoteViewHolder noteViewHolder, int i, @NonNull chatmodel chatmodel) {
 
                 noteViewHolder.particularusername.setText(chatmodel.getName());
-                String uri=chatmodel.getImage();
-
-                Picasso.get().load(uri).into(mimageviewofuser);
+//                String uri=chatmodel.getImage();
+//                if(!uri.isEmpty())
+//                Picasso.get().load(uri).into(mimageviewofuser);
                 if(chatmodel.getStatus().equals("Online"))
                 {
                     noteViewHolder.statusofuser.setText(chatmodel.getStatus());
-                    noteViewHolder.statusofuser.setTextColor(Color.GREEN);
                 }
                 else
                 {
                     noteViewHolder.statusofuser.setText(chatmodel.getStatus());
+                    noteViewHolder.statusofuser.setTextColor(android.R.color.darker_gray);
                 }
 
                 noteViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-//                        Intent intent=new Intent(ChatActivity.this,specificchat.class);
-//                        intent.putExtra("name",chatmodel.getName());
-//                        intent.putExtra("receiveruid",chatmodel.getUid());
+                        Intent intent=new Intent(ChatActivity.this,specificchat.class);
+                        intent.putExtra("name",chatmodel.getName());
+                        intent.putExtra("receiveruid",chatmodel.getUid());
 //                        intent.putExtra("imageuri",chatmodel.getImage());
-//                        startActivity(intent);
+                        startActivity(intent);
                     }
                 });
 
@@ -104,10 +109,6 @@ public class ChatActivity extends AppCompatActivity {
             particularusername=itemView.findViewById(R.id.nameofuser);
             statusofuser=itemView.findViewById(R.id.statusofuser);
             mimageviewofuser=itemView.findViewById(R.id.imageviewofuser);
-
-
-
-
         }
     }
 
